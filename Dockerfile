@@ -1,11 +1,13 @@
-FROM httpd:alpine3.21
+FROM php:7.4-apache
 
-RUN apk add --no-cache php php-cli
+RUN a2enmod rewrite
 
-WORKDIR /usr/local/apache2/htdocs/
+WORKDIR /var/www/html/
 
 COPY . .
 
-EXPOSE 8080
+RUN chown -R www-data:www-data /var/www/html/
 
-CMD ["php", "-S", "localhost:8080"]
+EXPOSE 80
+
+CMD ["apache2-foreground"]
